@@ -1,32 +1,204 @@
-<html lang="ca">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Primer repositori de Gerard Horcas </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricidad y Electrónica Básicas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #f0f8ff;
-            color: #333;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 50px;
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 2rem;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            color: #0c4a6e;
+            border-bottom: 2px solid #0c4a6e;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        input[type="number"] {
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
         }
         button {
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
+            transition: background-color 0.2s;
         }
         button:hover {
-            background-color: #45a049;
+            opacity: 0.9;
+        }
+        .correct {
+            color: #059669;
+        }
+        .incorrect {
+            color: #dc2626;
         }
     </style>
 </head>
-<body>
-    <p>Aquest és el primer repositori de</p>
-    <button>Gerard Horcas</button>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-900">Electricidad y Electrónica Básicas</h1>
+            <p class="text-lg text-blue-700 mt-2">Pon a prueba tus conocimientos sobre energía y potencia eléctrica</p>
+        </header>
+
+        <!-- Sección de Conversión de Unidades -->
+        <div class="card p-6 mb-8">
+            <h2 class="text-2xl font-semibold section-title mb-4">Conversión de Unidades</h2>
+            <p class="text-gray-600 mb-4">Introduce una cantidad de energía y conviértela entre Julios (J) y kilovatios-hora (kWh).</p>
+            
+            <div class="flex items-center space-x-4 mb-4">
+                <input type="number" id="inputJ" placeholder="Julios (J)" class="w-full">
+                <span class="text-2xl font-bold text-gray-400">↔</span>
+                <input type="number" id="inputKWh" placeholder="kWh" class="w-full">
+            </div>
+            
+            <button id="convertBtn" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Convertir</button>
+        </div>
+
+        <!-- Sección de Ejercicios Prácticos -->
+        <div class="card p-6 mb-8">
+            <h2 class="text-2xl font-semibold section-title mb-4">Ejercicios Prácticos</h2>
+            <p class="text-gray-600 mb-4">Resuelve los siguientes problemas basados en el material de estudio.</p>
+
+            <!-- Ejercicio 1: Potencia y voltaje -->
+            <div class="mb-6 border-b pb-4">
+                <h3 class="font-bold text-lg mb-2">Ejercicio 1: Potencia de un motor</h3>
+                <p class="text-gray-700">Un motor de 1W de potencia se alimenta con 5V. Calcula la intensidad (I) que recorre el motor.</p>
+                <div class="mt-2 flex items-center space-x-2">
+                    <label for="ej1_input">Intensidad (A):</label>
+                    <input type="number" id="ej1_input" class="w-24">
+                    <button onclick="checkAnswer('ej1', 0.2)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
+                </div>
+                <p id="ej1_result" class="mt-2"></p>
+            </div>
+
+            <!-- Ejercicio 2: Energía en kWh -->
+            <div class="mb-6 border-b pb-4">
+                <h3 class="font-bold text-lg mb-2">Ejercicio 2: Energía de un calefactor</h3>
+                <p class="text-gray-700">Un calefactor de 2 kW de potencia actúa durante 3 horas. Calcula la energía consumida en kWh.</p>
+                <div class="mt-2 flex items-center space-x-2">
+                    <label for="ej2_input">Energía (kWh):</label>
+                    <input type="number" id="ej2_input" class="w-24">
+                    <button onclick="checkAnswer('ej2', 6)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
+                </div>
+                <p id="ej2_result" class="mt-2"></p>
+            </div>
+
+            <!-- Ejercicio 3: Potencia de una bombilla -->
+            <div class="mb-6 border-b pb-4">
+                <h3 class="font-bold text-lg mb-2">Ejercicio 3: Potencia de una bombilla</h3>
+                <p class="text-gray-700">Una bombilla se alimenta a 230V y tiene una resistencia de 10 Ω. Calcula la potencia eléctrica (P) y la energía consumida en 10 horas en Julios (J) y kilovatios-hora (kWh).</p>
+                <div class="mt-2 space-y-2">
+                    <div>
+                        <label for="ej3_p">Potencia (P):</label>
+                        <input type="number" id="ej3_p" class="w-24"> W
+                        <button onclick="checkAnswer('ej3_p', 5290)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
+                        <p id="ej3_p_result" class="mt-1"></p>
+                    </div>
+                    <div>
+                        <label for="ej3_j">Energía (J):</label>
+                        <input type="number" id="ej3_j" class="w-24"> J
+                        <button onclick="checkAnswer('ej3_j', 190440000)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
+                        <p id="ej3_j_result" class="mt-1"></p>
+                    </div>
+                    <div>
+                        <label for="ej3_kwh">Energía (kWh):</label>
+                        <input type="number" id="ej3_kwh" class="w-24"> kWh
+                        <button onclick="checkAnswer('ej3_kwh', 52.9)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
+                        <p id="ej3_kwh_result" class="mt-1"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ejercicio 4: Corriente de una plancha -->
+            <div class="mb-6">
+                <h3 class="font-bold text-lg mb-2">Ejercicio 4: Corriente de una plancha</h3>
+                <p class="text-gray-700">Una plancha de 600W de potencia está conectada a un enchufe de 125V. Calcula la intensidad de corriente (I) y la energía consumida en kWh durante 5 minutos.</p>
+                <div class="mt-2 space-y-2">
+                    <div>
+                        <label for="ej4_i">Intensidad (A):</label>
+                        <input type="number" id="ej4_i" class="w-24"> A
+                        <button onclick="checkAnswer('ej4_i', 4.8)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
+                        <p id="ej4_i_result" class="mt-1"></p>
+                    </div>
+                    <div>
+                        <label for="ej4_kwh">Energía (kWh):</label>
+                        <input type="number" id="ej4_kwh" class="w-24"> kWh
+                        <button onclick="checkAnswer('ej4_kwh', 0.05)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
+                        <p id="ej4_kwh_result" class="mt-1"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputJ = document.getElementById('inputJ');
+            const inputKWh = document.getElementById('inputKWh');
+            const convertBtn = document.getElementById('convertBtn');
+
+            // Evento para convertir Julios a kWh
+            inputJ.addEventListener('input', () => {
+                if (inputJ.value) {
+                    const joules = parseFloat(inputJ.value);
+                    const kWh = joules / 3600000;
+                    inputKWh.value = kWh.toFixed(4);
+                } else {
+                    inputKWh.value = '';
+                }
+            });
+
+            // Evento para convertir kWh a Julios
+            inputKWh.addEventListener('input', () => {
+                if (inputKWh.value) {
+                    const kWh = parseFloat(inputKWh.value);
+                    const joules = kWh * 3600000;
+                    inputJ.value = joules.toFixed(2);
+                } else {
+                    inputJ.value = '';
+                }
+            });
+        });
+
+        // Función para comprobar las respuestas de los ejercicios
+        function checkAnswer(id, correctAnswer) {
+            const input = document.getElementById(id + '_input') || document.getElementById(id);
+            const resultElement = document.getElementById(id + '_result');
+            const userAnswer = parseFloat(input.value);
+
+            if (isNaN(userAnswer)) {
+                resultElement.textContent = 'Por favor, introduce un número.';
+                resultElement.className = 'mt-2 text-red-500';
+                return;
+            }
+
+            // Acepta un pequeño margen de error para los cálculos
+            if (Math.abs(userAnswer - correctAnswer) < 0.01) {
+                resultElement.textContent = '¡Correcto!';
+                resultElement.className = 'mt-2 correct font-bold';
+            } else {
+                resultElement.textContent = 'Incorrecto. Inténtalo de nuevo.';
+                resultElement.className = 'mt-2 incorrect font-bold';
+            }
+        }
+    </script>
+
 </body>
 </html>
