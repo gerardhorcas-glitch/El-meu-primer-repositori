@@ -3,202 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electricidad y Electrónica Básicas</title>
+    <title>Ejercicios de Vocabulario</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-            color: #1e293b;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
         }
         .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 2rem;
-        }
-        .card {
+            max-width: 600px;
+            width: 100%;
             background-color: #ffffff;
-            border-radius: 1rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+        }
+        .option-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .option-button:hover {
+            transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .section-title {
-            color: #0c4a6e;
-            border-bottom: 2px solid #0c4a6e;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        input[type="number"] {
-            border: 1px solid #cbd5e1;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-        }
-        button {
-            transition: background-color 0.2s;
-        }
-        button:hover {
-            opacity: 0.9;
-        }
-        .correct {
-            color: #059669;
-        }
-        .incorrect {
-            color: #dc2626;
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body>
 
-    <div class="container py-8">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-blue-900">Electricidad y Electrónica Básicas</h1>
-            <p class="text-lg text-blue-700 mt-2">Pon a prueba tus conocimientos sobre energía y potencia eléctrica</p>
-        </header>
-
-        <!-- Sección de Conversión de Unidades -->
-        <div class="card p-6 mb-8">
-            <h2 class="text-2xl font-semibold section-title mb-4">Conversión de Unidades</h2>
-            <p class="text-gray-600 mb-4">Introduce una cantidad de energía y conviértela entre Julios (J) y kilovatios-hora (kWh).</p>
-            
-            <div class="flex items-center space-x-4 mb-4">
-                <input type="number" id="inputJ" placeholder="Julios (J)" class="w-full">
-                <span class="text-2xl font-bold text-gray-400">↔</span>
-                <input type="number" id="inputKWh" placeholder="kWh" class="w-full">
-            </div>
-            
-            <button id="convertBtn" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Convertir</button>
+    <div id="app" class="container">
+        <!-- Pantalla de inicio -->
+        <div id="intro-screen">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Ejercicios de Vocabulario</h1>
+            <p class="text-gray-600 mb-8">
+                ¡Practica tu inglés con este juego interactivo! Se te mostrará una palabra en español y tendrás que elegir la traducción correcta.
+            </p>
+            <button id="start-button" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition-colors">
+                Comenzar
+            </button>
         </div>
 
-        <!-- Sección de Ejercicios Prácticos -->
-        <div class="card p-6 mb-8">
-            <h2 class="text-2xl font-semibold section-title mb-4">Ejercicios Prácticos</h2>
-            <p class="text-gray-600 mb-4">Resuelve los siguientes problemas basados en el material de estudio.</p>
-
-            <!-- Ejercicio 1: Potencia y voltaje -->
-            <div class="mb-6 border-b pb-4">
-                <h3 class="font-bold text-lg mb-2">Ejercicio 1: Potencia de un motor</h3>
-                <p class="text-gray-700">Un motor de 1W de potencia se alimenta con 5V. Calcula la intensidad (I) que recorre el motor.</p>
-                <div class="mt-2 flex items-center space-x-2">
-                    <label for="ej1_input">Intensidad (A):</label>
-                    <input type="number" id="ej1_input" class="w-24">
-                    <button onclick="checkAnswer('ej1', 0.2)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
-                </div>
-                <p id="ej1_result" class="mt-2"></p>
+        <!-- Pantalla de juego -->
+        <div id="game-screen" class="hidden">
+            <div class="flex justify-between items-center mb-6">
+                <div class="text-lg font-semibold text-gray-700">Puntuación: <span id="score">0</span></div>
+                <div class="text-lg font-semibold text-gray-700">Pregunta: <span id="question-number">1</span> / 10</div>
             </div>
 
-            <!-- Ejercicio 2: Energía en kWh -->
-            <div class="mb-6 border-b pb-4">
-                <h3 class="font-bold text-lg mb-2">Ejercicio 2: Energía de un calefactor</h3>
-                <p class="text-gray-700">Un calefactor de 2 kW de potencia actúa durante 3 horas. Calcula la energía consumida en kWh.</p>
-                <div class="mt-2 flex items-center space-x-2">
-                    <label for="ej2_input">Energía (kWh):</label>
-                    <input type="number" id="ej2_input" class="w-24">
-                    <button onclick="checkAnswer('ej2', 6)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
-                </div>
-                <p id="ej2_result" class="mt-2"></p>
+            <div class="bg-gray-100 rounded-xl p-6 mb-6">
+                <p id="question-text" class="text-2xl md:text-3xl font-bold text-gray-800"></p>
             </div>
 
-            <!-- Ejercicio 3: Potencia de una bombilla -->
-            <div class="mb-6 border-b pb-4">
-                <h3 class="font-bold text-lg mb-2">Ejercicio 3: Potencia de una bombilla</h3>
-                <p class="text-gray-700">Una bombilla se alimenta a 230V y tiene una resistencia de 10 Ω. Calcula la potencia eléctrica (P) y la energía consumida en 10 horas en Julios (J) y kilovatios-hora (kWh).</p>
-                <div class="mt-2 space-y-2">
-                    <div>
-                        <label for="ej3_p">Potencia (P):</label>
-                        <input type="number" id="ej3_p" class="w-24"> W
-                        <button onclick="checkAnswer('ej3_p', 5290)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
-                        <p id="ej3_p_result" class="mt-1"></p>
-                    </div>
-                    <div>
-                        <label for="ej3_j">Energía (J):</label>
-                        <input type="number" id="ej3_j" class="w-24"> J
-                        <button onclick="checkAnswer('ej3_j', 190440000)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
-                        <p id="ej3_j_result" class="mt-1"></p>
-                    </div>
-                    <div>
-                        <label for="ej3_kwh">Energía (kWh):</label>
-                        <input type="number" id="ej3_kwh" class="w-24"> kWh
-                        <button onclick="checkAnswer('ej3_kwh', 52.9)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
-                        <p id="ej3_kwh_result" class="mt-1"></p>
-                    </div>
-                </div>
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Botones de opciones se generarán aquí -->
             </div>
+
+            <div id="feedback-container" class="mt-6 text-xl font-bold"></div>
             
-            <!-- Ejercicio 4: Corriente de una plancha -->
-            <div class="mb-6">
-                <h3 class="font-bold text-lg mb-2">Ejercicio 4: Corriente de una plancha</h3>
-                <p class="text-gray-700">Una plancha de 600W de potencia está conectada a un enchufe de 125V. Calcula la intensidad de corriente (I) y la energía consumida en kWh durante 5 minutos.</p>
-                <div class="mt-2 space-y-2">
-                    <div>
-                        <label for="ej4_i">Intensidad (A):</label>
-                        <input type="number" id="ej4_i" class="w-24"> A
-                        <button onclick="checkAnswer('ej4_i', 4.8)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
-                        <p id="ej4_i_result" class="mt-1"></p>
-                    </div>
-                    <div>
-                        <label for="ej4_kwh">Energía (kWh):</label>
-                        <input type="number" id="ej4_kwh" class="w-24"> kWh
-                        <button onclick="checkAnswer('ej4_kwh', 0.05)" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600">Comprobar</button>
-                        <p id="ej4_kwh_result" class="mt-1"></p>
-                    </div>
-                </div>
+            <div class="mt-8 flex justify-center space-x-4">
+                <button id="check-button" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    Comprobar
+                </button>
+                <button id="next-button" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-full shadow-lg transition-colors hidden">
+                    Siguiente
+                </button>
             </div>
+        </div>
+
+        <!-- Pantalla final -->
+        <div id="end-screen" class="hidden">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">¡Juego terminado!</h2>
+            <p class="text-2xl text-gray-700 mb-8">Tu puntuación final es: <span id="final-score" class="font-extrabold text-blue-600"></span></p>
+            <button id="restart-button" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition-colors">
+                Jugar de Nuevo
+            </button>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const inputJ = document.getElementById('inputJ');
-            const inputKWh = document.getElementById('inputKWh');
-            const convertBtn = document.getElementById('convertBtn');
+        const vocabulary = [
+            { spanish: 'Pelearse', english: 'Fall out', category: 'verbs' },
+            { spanish: 'Llevarse bien', english: 'Get along', category: 'verbs' },
+            { spanish: 'Tener una discusión', english: 'Have an argument', category: 'verbs' },
+            { spanish: 'Reconciliarse', english: 'Make up', category: 'verbs' },
+            { spanish: 'Echar de menos / perder', english: 'Miss', category: 'verbs' },
+            { spanish: 'Quedar / encontrarse', english: 'Meet up', category: 'verbs' },
+            { spanish: 'Llegar a conocer', english: 'Get to know', category: 'verbs' },
+            { spanish: 'Donar', english: 'Donate', category: 'action_verbs' },
+            { spanish: 'Involucrarse', english: 'Get involved', category: 'action_verbs' },
+            { spanish: 'Echar una mano', english: 'Give a hand', category: 'action_verbs' },
+            { spanish: 'Recoger basura', english: 'Pick up litter', category: 'action_verbs' },
+            { spanish: 'Recaudar dinero', english: 'Raise some money', category: 'action_verbs' },
+            { spanish: 'Ser voluntario', english: 'Volunteer', category: 'action_verbs' },
+            { spanish: 'Guardar (un secreto)', english: 'Keep (a secret)', category: 'truth_verbs' },
+            { spanish: 'Fingir', english: 'Pretend', category: 'truth_verbs' },
+            { spanish: 'Confiar en', english: 'Trust', category: 'truth_verbs' },
+            { spanish: 'Mentir', english: 'Lie', category: 'truth_verbs' },
+            { spanish: 'Decir / contar', english: 'Tell', category: 'truth_verbs' },
+            { spanish: 'Creer', english: 'Believe', category: 'truth_verbs' },
+            { spanish: 'Prometer', english: 'Promise', category: 'truth_verbs' },
+            { spanish: 'Decir', english: 'Say', category: 'truth_verbs' },
+            { spanish: 'Salir en la tele', english: 'Appear on TV', category: 'experiences' },
+            { spanish: 'Acampar bajo las estrellas', english: 'Camp under the stars', category: 'experiences' },
+            { spanish: 'Decorar mi habitación', english: 'Decorate my bedroom', category: 'experiences' },
+            { spanish: 'Teñirme el pelo', english: 'Dye my hair', category: 'experiences' },
+            { spanish: 'Ir de mochilero', english: 'Go backpacking', category: 'experiences' },
+            { spanish: 'Ir a un festival de música', english: 'Go to a music festival', category: 'experiences' },
+            { spanish: 'Entrevistar a mi Youtuber favorito', english: 'Interview my favorite YouTuber', category: 'experiences' },
+            { spanish: 'Hacer un vídeo de baile viral', english: 'Make a viral dance video', category: 'experiences' },
+            { spanish: 'Actuar en directo', english: 'Perform live', category: 'experiences' },
+            { spanish: 'Probar comida poco común', english: 'Try unusual food', category: 'experiences' },
+            { spanish: 'Componer', english: 'Compose', category: 'creativity_verbs' },
+            { spanish: 'Pintar', english: 'Paint', category: 'creativity_verbs' },
+            { spanish: 'Montar / organizar / instalar', english: 'Set up', category: 'creativity_verbs' },
+            { spanish: 'Descubrir', english: 'Discover', category: 'creativity_verbs' },
+            { spanish: 'Inventar', english: 'Invent', category: 'creativity_verbs' },
+            { spanish: 'Anticuado', english: 'Old-fashioned', category: 'creativity_adjectives' },
+            { spanish: 'Agradable / divertido', english: 'Enjoyable', category: 'creativity_adjectives' },
+            { spanish: 'Delicado', english: 'Delicate', category: 'creativity_adjectives' },
+            { spanish: 'Antiguo', english: 'Ancient', category: 'creativity_adjectives' },
+            { spanish: 'Enorme', english: 'Enormous', category: 'creativity_adjectives' },
+            { spanish: 'Completamente nuevo', english: 'Brand new', category: 'creativity_adjectives' },
+            { spanish: 'Reciclado', english: 'Recycled', category: 'creativity_adjectives' },
+            { spanish: 'Diminuto', english: 'Tiny', category: 'creativity_adjectives' },
+            { spanish: 'Exitoso', english: 'Successful', category: 'creativity_adjectives' },
+            { spanish: 'Dinero en efectivo', english: 'Cash', category: 'money_nouns' },
+            { spanish: 'Mostrador', english: 'Counter', category: 'money_nouns' },
+            { spanish: 'Pagar', english: 'Pay', category: 'money_verbs' },
+            { spanish: 'Tarjeta de crédito', english: 'Credit card', category: 'money_nouns' },
+            { spanish: 'Prestar', english: 'Lend', category: 'money_verbs' },
+            { spanish: 'Devolver dinero', english: 'Pay back', category: 'money_verbs' },
+            { spanish: 'Deber dinero', english: 'Owe', category: 'money_verbs' },
+            { spanish: 'Recibo / ticket', english: 'Receipt', category: 'money_nouns' },
+            { spanish: 'Gastar', english: 'Spend', category: 'money_verbs' },
+            { spanish: 'Permitirse', english: 'Afford', category: 'money_verbs' },
+            { spanish: 'Descuento', english: 'Discount', category: 'money_nouns' },
+            { spanish: 'Rebajas / venta', english: 'Sale', category: 'money_nouns' },
+            { spanish: 'Ganga / buena oferta', english: 'Bargain', category: 'money_nouns' },
+            { spanish: 'Ahorrar', english: 'Save', category: 'money_verbs' }
+        ];
 
-            // Evento para convertir Julios a kWh
-            inputJ.addEventListener('input', () => {
-                if (inputJ.value) {
-                    const joules = parseFloat(inputJ.value);
-                    const kWh = joules / 3600000;
-                    inputKWh.value = kWh.toFixed(4);
-                } else {
-                    inputKWh.value = '';
-                }
-            });
+        let score = 0;
+        let questionCount = 0;
+        let questionsToAsk = 10;
+        let currentQuestion = null;
+        let answeredCorrectly = false;
 
-            // Evento para convertir kWh a Julios
-            inputKWh.addEventListener('input', () => {
-                if (inputKWh.value) {
-                    const kWh = parseFloat(inputKWh.value);
-                    const joules = kWh * 3600000;
-                    inputJ.value = joules.toFixed(2);
-                } else {
-                    inputJ.value = '';
-                }
-            });
-        });
+        const introScreen = document.getElementById('intro-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const endScreen = document.getElementById('end-screen');
+        const startButton = document.getElementById('start-button');
+        const checkButton = document.getElementById('check-button');
+        const nextButton = document.getElementById('next-button');
+        const restartButton = document.getElementById('restart-button');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const scoreSpan = document.getElementById('score');
+        const questionNumberSpan = document.getElementById('question-number');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const finalScoreSpan = document.getElementById('final-score');
 
-        // Función para comprobar las respuestas de los ejercicios
-        function checkAnswer(id, correctAnswer) {
-            const input = document.getElementById(id + '_input') || document.getElementById(id);
-            const resultElement = document.getElementById(id + '_result');
-            const userAnswer = parseFloat(input.value);
+        // Función para mezclar un array
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
-            if (isNaN(userAnswer)) {
-                resultElement.textContent = 'Por favor, introduce un número.';
-                resultElement.className = 'mt-2 text-red-500';
+        // Función para obtener una pregunta aleatoria
+        function getRandomQuestion() {
+            const randomIndex = Math.floor(Math.random() * vocabulary.length);
+            return vocabulary[randomIndex];
+        }
+
+        // Función para generar las opciones de respuesta
+        function generateOptions(correctAnswer) {
+            const allOptions = vocabulary.filter(item => item.category === correctAnswer.category && item.english !== correctAnswer.english);
+            const shuffledOptions = shuffle(allOptions);
+            const options = [correctAnswer];
+            
+            // Añadir 3 opciones incorrectas
+            for (let i = 0; i < 3 && i < shuffledOptions.length; i++) {
+                options.push(shuffledOptions[i]);
+            }
+            
+            return shuffle(options);
+        }
+
+        // Función para mostrar la pregunta
+        function displayQuestion() {
+            if (questionCount >= questionsToAsk) {
+                showEndScreen();
                 return;
             }
 
-            // Acepta un pequeño margen de error para los cálculos
-            if (Math.abs(userAnswer - correctAnswer) < 0.01) {
-                resultElement.textContent = '¡Correcto!';
-                resultElement.className = 'mt-2 correct font-bold';
-            } else {
-                resultElement.textContent = 'Incorrecto. Inténtalo de nuevo.';
-                resultElement.className = 'mt-2 incorrect font-bold';
-            }
+            answeredCorrectly = false;
+            checkButton.classList.remove('hidden');
+            nextButton.classList.add('hidden');
+            checkButton.disabled = true;
+            feedbackContainer.textContent = '';
+            optionsContainer.innerHTML = '';
+            
+            currentQuestion = getRandomQuestion();
+            questionText.textContent = currentQuestion.spanish;
+            questionNumberSpan.textContent = questionCount + 1;
+            
+            const options = generateOptions(currentQuestion);
+            
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option.english;
+                button.dataset.correct = (option.english === currentQuestion.english).toString();
+                button.className = "option-button w-full bg-blue-100 hover:bg-blue-200 text-blue-800 font-bold py-3 px-6 rounded-xl shadow-md text-lg text-left transition-all";
+                button.onclick = () => selectOption(button);
+                optionsContainer.appendChild(button);
+            });
         }
-    </script>
 
+        // Función para seleccionar una opción
+        function selectOption(selectedButton) {
+            const buttons = optionsContainer.querySelectorAll('.option-button');
+            buttons.forEach(button => {
+                button.classList.remove('bg-blue-500', 'bg-red-500', 'bg-green-500', 'text-white', 'border-4', 'border-blue-500');
+                button.classList.add('bg-blue-100', 'hover:bg-blue-200', 'text-blue-800');
+            });
+            
+            selectedButton.classList.remove('bg-blue-100', 'text-blue-800');
+            selectedButton.classList.add('bg-blue-500', 'text-white', 'border-4', 'border-blue-500');
+            
+            checkButton.disabled = false;
+        }
+
+        // Función para comprobar la respuesta
+        function checkAnswer() {
+            const selectedButton = optionsContainer.querySelector('.option-button.bg-blue-500');
+            if (!selectedButton) return;
+
+            checkButton.classList.add('hidden');
+            nextButton.classList.remove('hidden');
+            
+            const isCorrect = selectedButton.dataset.correct === 'true';
+            
+            if (isCorrect) {
+                score++;
+                scoreSpan.textContent = score;
+                feedbackContainer.textContent = '¡Correcto!';
+                feedbackContainer.classList.remove('text-red-500');
+                feedbackContainer.classList.add('text-green-500');
+            } else {
+                feedbackContainer.textContent = '¡Incorrecto!';
+                feedbackContainer.classList.remove('text-green-500');
+                feedbackContainer.classList.add('text-red-500');
+            }
+
+            answeredCorrectly = isCorrect;
+            
+            // Mostrar la respuesta correcta y deshabilitar los botones
+            const buttons = optionsContainer.querySelectorAll('.option-button');
+            buttons.forEach(button => {
+                button.disabled = true;
+                if (button.dataset.correct === 'true') {
+                    button.classList.remove('bg-blue-100', 'bg-blue-500', 'text-blue-800');
+                    button.classList.add('bg-green-500', 'text-white');
+                } else if (button.dataset.correct === 'false' && button.classList.contains('bg-blue-500')) {
+                     button.classList.remove('bg-blue-500', 'text-white');
+                     button.classList.add('bg-red-500');
+                }
+            });
+        }
+
+        // Función para pasar a la siguiente pregunta
+        function nextQuestion() {
+            questionCount++;
+            displayQuestion();
+        }
+
+        // Función para mostrar la pantalla de fin de juego
+        function showEndScreen() {
+            gameScreen.classList.add('hidden');
+            endScreen.classList.remove('hidden');
+            finalScoreSpan.textContent = `${score} de ${questionsToAsk}`;
+        }
+
+        // Función para reiniciar el juego
+        function restartGame() {
+            score = 0;
+            questionCount = 0;
+            scoreSpan.textContent = score;
+            endScreen.classList.add('hidden');
+            introScreen.classList.remove('hidden');
+        }
+
+        // Event Listeners
+        startButton.addEventListener('click', () => {
+            introScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            displayQuestion();
+        });
+
+        checkButton.addEventListener('click', checkAnswer);
+        nextButton.addEventListener('click', nextQuestion);
+        restartButton.addEventListener('click', restartGame);
+
+    </script>
 </body>
 </html>
